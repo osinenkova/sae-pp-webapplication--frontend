@@ -6,10 +6,12 @@ import Job from '../Job'
 
 
 export default function Favorites(props) {
-    let favorites = props.favorites.map(favorite => {
-        // TODO: render a job list based on favorite.id, job.id === favorite.id
-        let idArr = props.jobs.map(job => job.id);
-        console.log(idArr)
+    // defined favorites id array >>>
+
+    const filtered = props.jobs.filter((job) => props.favorites.includes(job.id))
+
+    let favorites = filtered.map(favorite => {
+        console.log(favorite)
     return <Job
             id={favorite.id}
             key={favorite.id}
@@ -28,7 +30,7 @@ export default function Favorites(props) {
             tools={favorite.tools}
 
             favorites={props.favorites}
-            addFavorite={props.addFavorite}
+            addFavorite={props.addFavorite} // props.addFavorite is not a function
             />
     })
     return (
@@ -37,7 +39,7 @@ export default function Favorites(props) {
             <div className='row'>
                 <div className='col-md'>
                     <ListGroup id="listgroup">
-                    {favorites.length ? favorites : <p>Empty</p>}
+                    {favorites.length ? favorites : <p className="text-muted">The list is empty</p>}
                     </ListGroup>
                 </div>
             </div>

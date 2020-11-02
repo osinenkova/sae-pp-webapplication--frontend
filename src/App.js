@@ -49,7 +49,7 @@ export default class App extends Component {
       <div className="App">
         <Router>
           <div>
-              <Nav tabs>
+              <Nav tabs className="py-3">
                   <NavItem>
                    <Link to="/" className="p-3"> Home </Link>
                   </NavItem>
@@ -60,10 +60,10 @@ export default class App extends Component {
   
               <Switch>
                 <Route path="/dashboard">
-                  <Dashboard favorites={this.state.favorites} jobs={this.state.jobs} addFavorite={this.addFavorite} />
+                  <Dashboard favorites={this.state.favorites} jobs={filteredSearch} addFavorite={this.addFavorite} handleSearchFieldChange={this.handleSearchFieldChange} />
                 </Route>
                 <Route exact path="/">
-                  <Home handleSearchFieldChange={this.handleSearchFieldChange} />
+                  <Home />
                 </Route>
                 <Route path="/favorites">
                   <Favorites favorites={this.state.favorites} jobs={this.state.jobs} />

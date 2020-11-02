@@ -34,11 +34,11 @@ export default function List (props) {
                 />
         })
     return (
-        <div className='container my-5'>
+        <div className='container'>
             <div className="d-flex justify-content-end">
             <Link to="/favorites"> View Favorites </Link>
             </div>
-            <h3>Latest Jobs</h3>
+            <h3 className="mb-4">Latest Jobs</h3>
             <div className='row'>
                 <div className='col-md'>
                     <ListGroup id="listgroup">

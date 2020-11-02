@@ -11,8 +11,8 @@ import {
 export default function Home(props) {
     return (
         <div className="container mt-5">
-            <h1> Chose a field: </h1>
-            <div>
+            <h1> Choose a keyword: </h1>
+            <div className="d-flex justify-content-between mt-5">
                 <Link to="/dashboard"> Senior </Link>
                 <Link to="/dashboard"> Front-end </Link>
                 <Link to="/dashboard"> Fullstack </Link>
