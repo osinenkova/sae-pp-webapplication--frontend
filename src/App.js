@@ -19,7 +19,8 @@ export default class App extends Component {
   state = {
     jobs : [],
     favorites: [],
-    searchJobs: ''
+    searchJobs: '',
+    filteredValue: ''
   }
   componentDidMount() {
       this.setState({ jobs: data }, ()=>console.log(this.state.jobs));
@@ -39,6 +40,14 @@ export default class App extends Component {
     handleSearchFieldChange = (e) => {
       this.setState({ searchJobs: e.target.value }, () => {console.log(this.state.searchJobs)})
     }
+  filtered = (keyword, data) => {
+    const count = data.filter(entry =>
+      (
+        Object.values(entry).some( val => typeof val === "string" && val.toLowerCase().includes(keyword.toLowerCase()) )
+      ) 
+    )
+    this.setState({ filteredValue: count.length }, console.log( this.state.filteredValue ))
+  }
   render () {
     let filteredSearch = this.state.jobs.filter((data) => {
       // TODO: not just company
@@ -63,7 +72,7 @@ export default class App extends Component {
                   <Dashboard favorites={this.state.favorites} jobs={filteredSearch} addFavorite={this.addFavorite} handleSearchFieldChange={this.handleSearchFieldChange} />
                 </Route>
                 <Route exact path="/">
-                  <Home />
+                  <Home filtered={this.filtered} jobs={this.state.jobs} growValue={this.state.filteredValue} />
                 </Route>
                 <Route path="/favorites">
                   <Favorites favorites={this.state.favorites} jobs={this.state.jobs} />
