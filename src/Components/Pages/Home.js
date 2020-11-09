@@ -1,19 +1,31 @@
 // LIBRARIES
-import React from "react";
-import { Button } from 'reactstrap';
+import React, { Component } from 'react'
 
-export default function Home(props) {
-    return (
+// COMPONENTS
+import Chart from '../Chart'
 
-        <div className="container mt-5">
-            <h1> Choose a keyword: </h1>
-            <div className="d-flex justify-content-between mt-5">
-                <Button onClick={()=>props.filtered('Senior',  props.jobs)}> Senior </Button>
-                <Button onClick={()=>props.filtered('Front-end',  props.jobs)}> Front-end </Button>
-                <Button onClick={()=>props.filtered('Fullstack',  props.jobs)}> Fullstack </Button>
-                <Button onClick={()=>props.filtered('Junior',  props.jobs)} > Junior </Button>
-                <Button onClick={()=>props.filtered('Software',  props.jobs)}> Software </Button>
+export default class Home extends Component {
+    state = {
+        chartData: {
+
+        labels: ['Senior', 'Front-end', 'Fullstack', 'Junior', 'Software'],
+
+        datasets: [
+            {
+                label: 'Job Listings',
+                data: [
+                    1, 1, 4, 5, 6
+                ]
+            }
+        ]
+    }
+
+    }
+    render() {
+        return (
+            <div>
+                <Chart chartData={this.state.chartData} />
             </div>
-        </div>
-    )
+        )
+    }
 }
