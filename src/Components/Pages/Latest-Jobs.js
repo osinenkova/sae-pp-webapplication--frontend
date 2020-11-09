@@ -11,23 +11,19 @@ export default function LatestJobs (props) {
   const marks = [
     {
       value: 0,
-      label: 'Junior',
-      id: 1
+      label: 'Junior'
     },
     {
       value: 50,
-      label: 'Middleweight',
-      id: 2
+      label: 'Midweight'
     },
     {
       value: 100,
-      label: 'Senior',
-      id: 3
+      label: 'Senior'
     },
   ];
-   const getValue = (e,val) => {
-     console.warn(val)
-   }
+
+
   return (
       <div>
           <Filter handleSearchFieldChange={props.handleSearchFieldChange} />
@@ -40,7 +36,7 @@ export default function LatestJobs (props) {
                 step={50}
                 //valueLabelDisplay="auto"
                 marks={marks}
-                onChangeCommitted={getValue} //console.log(marks.find(mark => mark.value === 50).label)
+                onChangeCommitted={props.getValue} //console.log(marks.find(mark => mark.value === 50).label)
               />
             </div>
           </div>

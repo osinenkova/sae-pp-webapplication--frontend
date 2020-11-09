@@ -42,26 +42,30 @@ export default class App extends Component {
     handleSearchFieldChange = (e) => {
       this.setState({ searchJobs: e.target.value }, () => {console.log(this.state.searchJobs)})
     }
-    handleSlider (event, value,id) {
-      let values = [...this.state.sliderValue];
-  
-      values[id] =  value;
-      this.setState({sliderValue: values });
-      console.log('handlerslider'+value+' '+id);
-  }
-  filtered = (keyword, data) => {
-    const count = data.filter(entry =>
-      (
-        Object.values(entry).some( val => typeof val === "string" && val.toLowerCase().includes(keyword.toLowerCase()) )
-      ) 
-    )
-    this.setState({ filteredValue: count.length }, console.log( this.state.filteredValue ))
-  }
+    getValue = (e,val) => {
+      console.warn(val);
+ 
+       switch(val) {
+         case 0:
+           this.setState({sliderValue: 'Junior'}, () => {console.log(this.state.sliderValue)}) 
+         break;
+         case 50:
+           this.setState({sliderValue: 'Midweight'}, () => {console.log(this.state.sliderValue)}) 
+         break;
+         case 100:
+          this.setState({sliderValue: 'Senior'}, () => {console.log(this.state.sliderValue)}) 
+         break;
+         default:
+         return ''
+       }
+ 
+    }
   render () {
     let filteredSearch = this.state.jobs.filter((data) => {
-      // TODO: not just company
-      // TODO: button to navigate to dashboard with filtered results
-      return data.company.toLowerCase().includes(this.state.searchJobs.toLowerCase())
+      // TODO: not just company in keywords
+      // TODO: make it function together
+      // TODO: add reset for slider
+      return data.level.toLowerCase().includes(this.state.sliderValue.toLowerCase()) && data.company.toLowerCase().includes(this.state.searchJobs.toLowerCase());
     })
     return (
       <div className="App">
@@ -83,7 +87,7 @@ export default class App extends Component {
                     jobs={filteredSearch}
                     addFavorite={this.addFavorite}
                     handleSearchFieldChange={this.handleSearchFieldChange}
-                    handleSlider={this.handleSlider}
+                    getValue={this.getValue}
                      />
                 </Route>
                 <Route exact path="/">
