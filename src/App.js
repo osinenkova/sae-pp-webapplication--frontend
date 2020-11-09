@@ -75,7 +75,7 @@ export default class App extends Component {
                   <Home filtered={this.filtered} jobs={this.state.jobs} growValue={this.state.filteredValue} />
                 </Route>
                 <Route path="/favorites">
-                  <Favorites favorites={this.state.favorites} jobs={this.state.jobs} />
+                  <Favorites favorites={this.state.favorites} jobs={this.state.jobs} addFavorite={this.addFavorite} />
                 </Route>
               </Switch>
           </div>
