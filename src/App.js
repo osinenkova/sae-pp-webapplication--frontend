@@ -10,17 +10,19 @@ import {
 // DATA
 import data from './Data/data.json'
 
-// COMPONENTS
+// PAGES
 import Home from './Components/Pages/Home'
-import Dashboard from './Components/Pages/Dashboard'
+import LatestJobs from './Components/Pages/Latest-Jobs'
 import Favorites from './Components/Pages/Favorites'
+import Stats from './Components/Pages/Stats'
 
 export default class App extends Component {
   state = {
     jobs : [],
     favorites: [],
     searchJobs: '',
-    filteredValue: ''
+    filteredValue: '',
+    sliderValue: ''
   }
   componentDidMount() {
       this.setState({ jobs: data }, ()=>console.log(this.state.jobs));
@@ -40,6 +42,13 @@ export default class App extends Component {
     handleSearchFieldChange = (e) => {
       this.setState({ searchJobs: e.target.value }, () => {console.log(this.state.searchJobs)})
     }
+    handleSlider (event, value,id) {
+      let values = [...this.state.sliderValue];
+  
+      values[id] =  value;
+      this.setState({sliderValue: values });
+      console.log('handlerslider'+value+' '+id);
+  }
   filtered = (keyword, data) => {
     const count = data.filter(entry =>
       (
@@ -63,13 +72,19 @@ export default class App extends Component {
                    <Link to="/" className="p-3"> Home </Link>
                   </NavItem>
                   <NavItem>
-                  <Link to="/dashboard" className="p-3"> Dashboard </Link>
+                  <Link to="/latest-jobs" className="p-3"> Latest Jobs </Link>
                   </NavItem>
               </Nav>
   
               <Switch>
-                <Route path="/dashboard">
-                  <Dashboard favorites={this.state.favorites} jobs={filteredSearch} addFavorite={this.addFavorite} handleSearchFieldChange={this.handleSearchFieldChange} />
+                <Route path="/latest-jobs">
+                  <LatestJobs
+                    favorites={this.state.favorites}
+                    jobs={filteredSearch}
+                    addFavorite={this.addFavorite}
+                    handleSearchFieldChange={this.handleSearchFieldChange}
+                    handleSlider={this.handleSlider}
+                     />
                 </Route>
                 <Route exact path="/">
                   <Home />
