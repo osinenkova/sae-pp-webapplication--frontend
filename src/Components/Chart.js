@@ -2,7 +2,6 @@ import React, {Component} from 'react';
 import {Pie} from 'react-chartjs-2';
 
 export default function Chart(props) {
-   
    return (
        <div className="chart">
            <Pie
@@ -20,6 +19,7 @@ export default function Chart(props) {
                     // position: 'right'
                 }
             }}
+            onElementsClick={elem => {console.log(elem)}}
             />
        </div>
    )

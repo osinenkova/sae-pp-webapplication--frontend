@@ -14,14 +14,13 @@ import data from './Data/data.json'
 import Home from './Components/Pages/Home'
 import LatestJobs from './Components/Pages/Latest-Jobs'
 import Favorites from './Components/Pages/Favorites'
-import Stats from './Components/Pages/Stats'
+
 
 export default class App extends Component {
   state = {
     jobs : [],
     favorites: [],
     searchJobs: '',
-    filteredValue: '',
     sliderValue: ''
   }
   componentDidMount() {
@@ -44,7 +43,6 @@ export default class App extends Component {
     }
     getValue = (e,val) => {
       console.warn(val);
- 
        switch(val) {
          case 0:
            this.setState({sliderValue: 'Junior'}, () => {console.log(this.state.sliderValue)}) 
@@ -58,14 +56,23 @@ export default class App extends Component {
          default:
          return ''
        }
- 
     }
+    cleanInput = () => {
+      this.setState({ 
+        searchJobs: '',
+        sliderValue: ''
+       });
+  }
   render () {
     let filteredSearch = this.state.jobs.filter((data) => {
       // TODO: not just company in keywords
-      // TODO: make it function together
+      // TODO: apply both filters
       // TODO: add reset for slider
-      return data.level.toLowerCase().includes(this.state.sliderValue.toLowerCase()) && data.company.toLowerCase().includes(this.state.searchJobs.toLowerCase());
+
+      // slider results
+      return data.level.toLowerCase().includes(this.state.sliderValue.toLowerCase())
+      // serach results
+       && data.company.toLowerCase().includes(this.state.searchJobs.toLowerCase());
     })
     return (
       <div className="App">
@@ -88,6 +95,7 @@ export default class App extends Component {
                     addFavorite={this.addFavorite}
                     handleSearchFieldChange={this.handleSearchFieldChange}
                     getValue={this.getValue}
+                    cleanInput={this.cleanInput}
                      />
                 </Route>
                 <Route exact path="/">
