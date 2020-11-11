@@ -1,3 +1,4 @@
+// LIBRARIES
 import React, { Component } from 'react';
 import { Nav, NavItem, NavLink } from 'reactstrap';
 import {
@@ -14,6 +15,7 @@ import data from './Data/data.json'
 import Home from './Components/Pages/Home'
 import LatestJobs from './Components/Pages/Latest-Jobs'
 import Favorites from './Components/Pages/Favorites'
+import Help from './Components/Pages/Help'
 
 
 export default class App extends Component {
@@ -23,9 +25,11 @@ export default class App extends Component {
     searchJobs: '',
     sliderValue: ''
   }
+
   componentDidMount() {
-      this.setState({ jobs: data }, ()=>console.log(this.state.jobs));
+      this.setState({ jobs: data }, /*()=>console.log(this.state.jobs)*/);
   }
+
   addFavorite = (id) => {
       if (this.state.favorites.includes(id)) {
         // this removes the already added contacts from favorites:
@@ -37,43 +41,45 @@ export default class App extends Component {
         addedFavorites.push(id);
         this.setState({ favorites: addedFavorites }, ()=>console.log(this.state.favorites))
       }
-    }
-    handleSearchFieldChange = (e) => {
-      this.setState({ searchJobs: e.target.value }, () => {console.log(this.state.searchJobs)})
-    }
-    getValue = (e,val) => {
-      console.warn(val);
-       switch(val) {
-         case 0:
-           this.setState({sliderValue: 'Junior'}, () => {console.log(this.state.sliderValue)}) 
-         break;
-         case 50:
-           this.setState({sliderValue: 'Midweight'}, () => {console.log(this.state.sliderValue)}) 
-         break;
-         case 100:
-          this.setState({sliderValue: 'Senior'}, () => {console.log(this.state.sliderValue)}) 
-         break;
-         default:
-         return ''
-       }
-    }
-    cleanInput = () => {
-      this.setState({ 
-        searchJobs: '',
-        sliderValue: ''
-       });
   }
+  handleSearchFieldChange = (e) => {
+    this.setState({ searchJobs: e.target.value }, () => {console.log(this.state.searchJobs)})
+  }
+  getValue = (e,val) => {
+    console.warn(val);
+      switch(val) {
+        case 0:
+          this.setState({sliderValue: 'Junior'}, () => {console.log(this.state.sliderValue)}) 
+        break;
+        case 50:
+          this.setState({sliderValue: 'Midweight'}, () => {console.log(this.state.sliderValue)}) 
+        break;
+        case 100:
+        this.setState({sliderValue: 'Senior'}, () => {console.log(this.state.sliderValue)}) 
+        break;
+        default:
+        return ''
+      }
+  }
+  cleanInput = () => {
+    this.setState({ 
+      searchJobs: '',
+      sliderValue: ''
+      });
+  }
+
   render () {
     let filteredSearch = this.state.jobs.filter((data) => {
-      // TODO: not just company in keywords
-      // TODO: apply both filters
-      // TODO: add reset for slider
+      // TODO: second filter to search in multiple keys
 
       // slider results
       return data.level.toLowerCase().includes(this.state.sliderValue.toLowerCase())
-      // serach results
-       && data.company.toLowerCase().includes(this.state.searchJobs.toLowerCase());
+      // serach resultss
+       && data.level.toLowerCase().includes(this.state.searchJobs.toLowerCase()) ||
+       data.company.toLowerCase().includes(this.state.searchJobs.toLowerCase()) ||
+       data.role.toLowerCase().includes(this.state.searchJobs.toLowerCase()) ;
     })
+
     return (
       <div className="App">
         <Router>
@@ -85,6 +91,9 @@ export default class App extends Component {
                   <NavItem>
                   <Link to="/latest-jobs" className="p-3"> Latest Jobs </Link>
                   </NavItem>
+                  <NavItem>
+                  <Link to="/help" className="p-3"> Help </Link>
+                  </NavItem>
               </Nav>
   
               <Switch>
@@ -95,7 +104,8 @@ export default class App extends Component {
                     addFavorite={this.addFavorite}
                     handleSearchFieldChange={this.handleSearchFieldChange}
                     getValue={this.getValue}
-                    cleanInput={this.cleanInput}
+                    // cleanInput={this.cleanInput}
+                    toggleChecked={this.toggleChecked}
                      />
                 </Route>
                 <Route exact path="/">
@@ -103,6 +113,9 @@ export default class App extends Component {
                 </Route>
                 <Route path="/favorites">
                   <Favorites favorites={this.state.favorites} jobs={this.state.jobs} addFavorite={this.addFavorite} />
+                </Route>
+                <Route path="/help">
+                  <Help />
                 </Route>
               </Switch>
           </div>

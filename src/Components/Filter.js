@@ -7,7 +7,7 @@ export default function Filter(props) {
         <div className="container mt-5">
             <Form>
             <InputGroup>
-                <Input placeholder='Enter any keyword..'
+                <Input placeholder='Filter results..'
                     className="mb-5"
                     onChange={props.handleSearchFieldChange}
                 />

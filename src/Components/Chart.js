@@ -1,9 +1,17 @@
+//LIBRARIES
 import React, {Component} from 'react';
+import {withRouter} from 'react-router-dom';
 import {Pie} from 'react-chartjs-2';
 
-export default function Chart(props) {
+
+function Chart(props) {
+    
+    const nextPath = (path) => {
+        props.history.push(path);
+    }
+
    return (
-       <div className="chart">
+       <div className="chart mt-5">
            <Pie
             data={props.chartData}
             width={100}
@@ -19,8 +27,10 @@ export default function Chart(props) {
                     // position: 'right'
                 }
             }}
-            onElementsClick={elem => {console.log(elem)}}
+            onElementsClick={ elem=> elem[0] !== undefined ? console.log(elem[0]._index) : null /*() => nextPath('/latest-jobs')*/ }
             />
        </div>
    )
 }
+
+export default withRouter(Chart);

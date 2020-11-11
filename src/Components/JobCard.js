@@ -4,6 +4,9 @@ import { Button, Card, CardBody, CardTitle } from 'reactstrap';
 import { faHeart, faEnvelope, faPhone } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
+// COMPONENTS
+import Modal from './Modal'
+
 export default function JobCard(props) {
     return (
         <div>
@@ -27,9 +30,7 @@ export default function JobCard(props) {
                         <p className="d-flex justify-content-center"> {props.new ? <strong>new, &#160;</strong> : null} posted {props.postedAt} </p>
 
                     <p className="d-flex justify-content-around align-items-center">
-                        <Button color="primary">
-                            <FontAwesomeIcon icon={faEnvelope} />
-                        </Button>
+                    <Modal buttonIcon={faEnvelope} color={'primary'} />
 
                         <Button color="primary">
                             <FontAwesomeIcon icon={faPhone} />

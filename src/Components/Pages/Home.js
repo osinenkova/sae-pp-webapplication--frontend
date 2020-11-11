@@ -13,7 +13,7 @@ export default class Home extends Component {
             datasets: [
                 {
                     label: 'Job Listings',
-                    data: [ 1, 1, 4, 5, 6 ],
+                    data: [ 1, 1, 3, 5, 6 ],
                     backgroundColor: [ '#4872B5', '#2F4A75', '#629AF5', '#162338', '#578ADB' ]
                 }
             ]
@@ -23,7 +23,7 @@ export default class Home extends Component {
     
     render() {
         return (
-            <div>
+            <div className="h-100">
                 <Chart
                     chartData={this.state.chartData}
                  />

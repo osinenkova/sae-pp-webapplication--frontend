@@ -1,8 +1,7 @@
 // LIBRARIES
-import React, { Component } from 'react'
-import { Button } from 'reactstrap';
+import React from 'react'
 import Slider from '@material-ui/core/Slider'
-import Switch from '@material-ui/core/Switch'
+// import Switch from '@material-ui/core/Switch'
 
 // COMPONENTS
 import List from '../List'
@@ -39,8 +38,7 @@ export default function LatestJobs (props) {
                 marks={marks}
                 onChangeCommitted={props.getValue} //console.log(marks.find(mark => mark.value === 50).label)
               />
-              {/* TODO Reset slider */}
-              <Button onClick={props.cleanInput}>reset</Button>
+              {/* simple reset button: <Button onClick={props.cleanInput}>reset</Button> */}
             </div>
           </div>
           <List
