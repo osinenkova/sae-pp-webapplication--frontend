@@ -5,10 +5,11 @@ import React, { Component } from 'react'
 import Chart from '../Chart'
 
 export default class Home extends Component {
+    labels = ['Senior', 'Front-end', 'Fullstack', 'Junior', 'Software']
     state = {
         chartData: {
 
-            labels: ['Senior', 'Front-end', 'Fullstack', 'Junior', 'Software'],
+            labels: this.labels,
 
             datasets: [
                 {
@@ -19,12 +20,13 @@ export default class Home extends Component {
             ]
 
         }
-    } 
+    }
     
     render() {
         return (
             <div className="h-100">
                 <Chart
+                    labels={this.labels}
                     chartData={this.state.chartData}
                  />
             </div>

@@ -1,12 +1,6 @@
 // LIBRARIES
 import React, { Component } from 'react';
-import { Nav, NavItem, NavLink } from 'reactstrap';
-import {
-  BrowserRouter as Router,
-  Switch,
-  Route,
-  Link
-} from "react-router-dom";
+import { BrowserRouter as Router, Switch, Route, NavLink } from 'react-router-dom';
 
 // DATA
 import data from './Data/data.json'
@@ -16,6 +10,11 @@ import Home from './Components/Pages/Home'
 import LatestJobs from './Components/Pages/Latest-Jobs'
 import Favorites from './Components/Pages/Favorites'
 import Help from './Components/Pages/Help'
+import Login from './Components/Pages/Login'
+import Books from './Components/Pages/Books'
+
+// COMPONENTS
+import apiClient from './Services/api'
 
 
 export default class App extends Component {
@@ -23,7 +22,8 @@ export default class App extends Component {
     jobs : [],
     favorites: [],
     searchJobs: '',
-    sliderValue: ''
+    sliderValue: '',
+    loggedIn: false
   }
 
   componentDidMount() {
@@ -67,35 +67,67 @@ export default class App extends Component {
       sliderValue: ''
       });
   }
+  
+  //setLoggedIn = sessionStorage.getItem('loggedIn') == 'true' || false;
+
+  login = () => {
+    this.setState({ loggedIn: true });
+    sessionStorage.setItem('loggedIn', true);
+  };
+
+  logout = () => {
+    apiClient.post('/logout').then(response => {
+      if (response.status === 204) {
+        this.setState({ loggedIn: false });
+        sessionStorage.setItem('loggedIn', false);
+      }
+    })
+  };
 
   render () {
+
+  const authLink = this.state.loggedIn 
+    ? <button onClick={this.logout} className="nav-link btn btn-link">Logout</button> 
+    : <NavLink to='/login' className="nav-link">Login</NavLink>;
     let filteredSearch = this.state.jobs.filter((data) => {
+
       // TODO: second filter to search in multiple keys
 
       // slider results
       return data.level.toLowerCase().includes(this.state.sliderValue.toLowerCase())
-      // serach resultss
-       && data.level.toLowerCase().includes(this.state.searchJobs.toLowerCase()) ||
+      // search results
+       && ( data.level.toLowerCase().includes(this.state.searchJobs.toLowerCase()) ||
        data.company.toLowerCase().includes(this.state.searchJobs.toLowerCase()) ||
-       data.role.toLowerCase().includes(this.state.searchJobs.toLowerCase()) ;
+       data.role.toLowerCase().includes(this.state.searchJobs.toLowerCase()) );
     })
 
     return (
       <div className="App">
         <Router>
           <div>
-              <Nav tabs className="py-3">
-                  <NavItem>
-                   <Link to="/" className="p-3"> Home </Link>
-                  </NavItem>
-                  <NavItem>
-                  <Link to="/latest-jobs" className="p-3"> Latest Jobs </Link>
-                  </NavItem>
-                  <NavItem>
-                  <Link to="/help" className="p-3"> Help </Link>
-                  </NavItem>
-              </Nav>
-  
+            <nav className="navbar navbar-expand-sm navbar-dark bg-dark fixed-top">
+              <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                <ul className="navbar-nav">
+                  <li className="nav-item">
+                    <NavLink to="/" className="nav-link"> Home </NavLink>
+                  </li>
+                  <li className="nav-item">
+                    <NavLink to="/latest-jobs" className="nav-link"> Latest Jobs </NavLink>
+                  </li>
+                  <li className="nav-item">
+                    <NavLink to="/help" className="nav-link"> Help </NavLink>
+                  </li>
+                  <li className="nav-item">
+                  <NavLink to='/books' className="nav-link">Books</NavLink>
+                  </li>
+                  <li className="nav-item">
+                    {authLink}
+                  </li>
+                </ul>
+              </div>
+            </nav>
+            
+            <div className="container mt-5 pt-5"></div>
               <Switch>
                 <Route path="/latest-jobs">
                   <LatestJobs
@@ -117,9 +149,16 @@ export default class App extends Component {
                 <Route path="/help">
                   <Help />
                 </Route>
+                <Route path='/books' exact render={props => (
+                  <Books {...props} loggedIn={this.state.loggedIn} />
+                )} />
+                <Route path='/login' render={props => (
+                  <Login {...props} login={this.login} />
+                )} />
               </Switch>
           </div>
         </Router>
+
       </div>
     );
   }

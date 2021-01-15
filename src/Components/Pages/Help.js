@@ -7,7 +7,7 @@ export default function Help() {
     return (
         <div>
             <MessageForm
-                title={'Having trouble navigating this website? Send us your feedback:'}
+                title={'Having trouble navigating this website? Send us feedback:'}
                 textfield={'Enter your name here'}
                 textareaPlaceholder={'Your message'}
             />

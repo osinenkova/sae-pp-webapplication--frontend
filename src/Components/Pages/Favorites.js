@@ -39,7 +39,7 @@ export default function Favorites(props) {
             <div className='row'>
                 <div className='col-md'>
                     <ListGroup id="listgroup">
-                    {favorites.length ? favorites : <p className="text-muted">The list is empty</p>}
+                    {favorites.length ? favorites : <p className="text-muted">This list is empty</p>}
                     </ListGroup>
                 </div>
             </div>
