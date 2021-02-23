@@ -12,7 +12,8 @@ const Books = (props) => {
             .catch(error => console.error(error));
         }
     }, []);
-    const bookList = books.map((book) => 
+    if (props.loggedIn) {
+        const bookList = books.map((book) =>
         <div key={book.id}
             className="list-group-item"
         >
@@ -20,7 +21,6 @@ const Books = (props) => {
             <small>{book.author}</small>
         </div>
     );
-    if (props.loggedIn) {
         return (
             <div className="list-group">{bookList}</div>
         );

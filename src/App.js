@@ -12,6 +12,8 @@ import Favorites from './Components/Pages/Favorites'
 import Help from './Components/Pages/Help'
 import Login from './Components/Pages/Login'
 import Books from './Components/Pages/Books'
+import JobPosting from './Components/Pages/JobPosting'
+import Dashboard from './Components/Pages/Dashboard'
 
 // COMPONENTS
 import apiClient from './Services/api'
@@ -27,8 +29,20 @@ export default class App extends Component {
   }
 
   componentDidMount() {
-      this.setState({ jobs: data }, /*()=>console.log(this.state.jobs)*/);
+    // data.json
+    this.setState({ jobs: data });
+    // database
+    apiClient.get('/api/job-postings')
+    .then(response => {
+      let jobs = [...this.state.jobs];
+      let jobsWithPostings = jobs.concat(response.data);
+      this.setState({ jobs: jobsWithPostings });
+      //console.log(this.state.jobs);
+    })
+    .catch(error => console.error(error));
   }
+
+
 
   addFavorite = (id) => {
       if (this.state.favorites.includes(id)) {
@@ -67,12 +81,14 @@ export default class App extends Component {
       sliderValue: ''
       });
   }
-  
-  //setLoggedIn = sessionStorage.getItem('loggedIn') == 'true' || false;
 
   login = () => {
     this.setState({ loggedIn: true });
     sessionStorage.setItem('loggedIn', true);
+    // apiClient.get('api/user')
+    // .then(response => {
+    //   console.log(response);
+    // })
   };
 
   logout = () => {
@@ -88,11 +104,9 @@ export default class App extends Component {
 
   const authLink = this.state.loggedIn 
     ? <button onClick={this.logout} className="nav-link btn btn-link">Logout</button> 
-    : <NavLink to='/login' className="nav-link">Login</NavLink>;
+    : <NavLink to='/login' className="nav-link">Anmelden</NavLink>;
     let filteredSearch = this.state.jobs.filter((data) => {
-
       // TODO: second filter to search in multiple keys
-
       // slider results
       return data.level.toLowerCase().includes(this.state.sliderValue.toLowerCase())
       // search results
@@ -106,17 +120,25 @@ export default class App extends Component {
         <Router>
           <div>
             <nav className="navbar navbar-expand-sm navbar-dark bg-dark fixed-top">
-              <div class="collapse navbar-collapse" id="navbarSupportedContent">
+              <div className="collapse navbar-collapse" id="navbarSupportedContent">
                 <ul className="navbar-nav">
                   <li className="nav-item">
                     <NavLink to="/" className="nav-link"> Home </NavLink>
                   </li>
+                  { this.state.loggedIn === true ?
+                  <li className="nav-item">
+                    <NavLink to="/dashboard" className="nav-link"> Dashboard </NavLink>
+                  </li> : null }
                   <li className="nav-item">
                     <NavLink to="/latest-jobs" className="nav-link"> Latest Jobs </NavLink>
                   </li>
                   <li className="nav-item">
                     <NavLink to="/help" className="nav-link"> Help </NavLink>
                   </li>
+                  { this.state.loggedIn ? 
+                  <li className="nav-item">
+                  <NavLink to='/post-a-job' className="nav-link">Jobschaltung</NavLink>
+                  </li> : null }
                   <li className="nav-item">
                   <NavLink to='/books' className="nav-link">Books</NavLink>
                   </li>
@@ -143,6 +165,9 @@ export default class App extends Component {
                 <Route exact path="/">
                   <Home />
                 </Route>
+                <Route path='/dashboard'>
+                  <Dashboard loggedIn={this.state.loggedIn} />
+                  </Route>
                 <Route path="/favorites">
                   <Favorites favorites={this.state.favorites} jobs={this.state.jobs} addFavorite={this.addFavorite} />
                 </Route>
@@ -151,6 +176,9 @@ export default class App extends Component {
                 </Route>
                 <Route path='/books' exact render={props => (
                   <Books {...props} loggedIn={this.state.loggedIn} />
+                )} />
+                <Route path='/post-a-job' exact render={props => (
+                  <JobPosting loggedIn={this.state.loggedIn} />
                 )} />
                 <Route path='/login' render={props => (
                   <Login {...props} login={this.login} />

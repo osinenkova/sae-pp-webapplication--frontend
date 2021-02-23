@@ -17,7 +17,7 @@ export default function List (props) {
                 key={job.id}
 
                 company={job.company}
-                logo={job.logo}
+                logo={job.logo || null}
                 new={job.new}
                 featured={job.featured}
                 position={job.position}

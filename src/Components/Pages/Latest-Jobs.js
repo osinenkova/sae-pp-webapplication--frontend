@@ -1,7 +1,6 @@
 // LIBRARIES
 import React from 'react'
 import Slider from '@material-ui/core/Slider'
-// import Switch from '@material-ui/core/Switch'
 
 // COMPONENTS
 import List from '../List'
