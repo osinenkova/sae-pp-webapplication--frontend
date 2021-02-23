@@ -10,7 +10,7 @@ class JobPosting extends Component {
   constructor (props) {
     super(props)
     this.state = {
-        user_id: '',
+        author_id: '',
         company: '',
         //   logo: '',
         position: '',
@@ -56,7 +56,7 @@ class JobPosting extends Component {
         apiClient.get('api/user')
             .then(response => {
             apiClient.post('api/job-postings', {
-                user_id: response.data.id,
+                author_id: response.data.id,
                 company: this.state.company,
                 // logo: this.state.logo,
                 position: this.state.position,

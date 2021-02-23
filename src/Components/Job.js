@@ -8,7 +8,7 @@ import JobCard from './JobCard'
 
 
 export default function Job(props) {
-
+    // console.log(props.currentAuthorId, props.author_id)
     return (
         <div>
             <ListGroupItem>
@@ -24,6 +24,7 @@ export default function Job(props) {
                                 <div>
                                     <JobCard
                                         id={props.id}
+                                        author_id={props.author_id}
                                         company={props.company}
                                         logo={props.logo}
                                         new={props.new}
@@ -39,6 +40,8 @@ export default function Job(props) {
 
                                         favorites={props.favorites}
                                         addFavorite={props.addFavorite}
+
+                                        currentAuthorId={props.currentAuthorId}
                                     />
                                 </div>
                                 }

@@ -1,6 +1,7 @@
 [
     {
       "id": 100001,
+      "author_id": 456789,
       "company": "Photosnap",
       "logo": "../images/photosnap.svg",
       "new": true,
@@ -16,6 +17,7 @@
     },
     {
       "id": 200001,
+      "author_id": 456789,
       "company": "Manage",
       "logo": "../images/manage.svg",
       "new": true,
@@ -31,6 +33,7 @@
     },
     {
       "id": 300001,
+      "author_id": 456789,
       "company": "Account",
       "logo": "../images/account.svg",
       "new": true,
@@ -46,6 +49,7 @@
     },
     {
       "id": 400001,
+      "author_id": 456789,
       "company": "MyHome",
       "logo": "../images/myhome.svg",
       "new": false,
@@ -61,6 +65,7 @@
     },
     {
       "id": 500001,
+      "author_id": 456789,
       "company": "Loop Studios",
       "logo": "../images/loop-studios.svg",
       "new": false,
@@ -76,6 +81,7 @@
     },
     {
       "id": 600001,
+      "author_id": 456789,
       "company": "FaceIt",
       "logo": "../images/faceit.svg",
       "new": false,
@@ -91,6 +97,7 @@
     },
     {
       "id": 700001,
+      "author_id": 456789,
       "company": "Shortly",
       "logo": "../images/shortly.svg",
       "new": false,
@@ -106,6 +113,7 @@
     },
     {
       "id": 800001,
+      "author_id": 456789,
       "company": "Insure",
       "logo": "../images/insure.svg",
       "new": false,
@@ -121,6 +129,7 @@
     },
     {
       "id": 900001,
+      "author_id": 456789,
       "company": "Eyecam Co.",
       "logo": "../images/eyecam-co.svg",
       "new": false,
@@ -136,6 +145,7 @@
     },
     {
       "id": 1000001,
+      "author_id": 456789,
       "company": "The Air Filter Company",
       "logo": "../images/the-air-filter-company.svg",
       "new": false,

@@ -25,7 +25,8 @@ export default class App extends Component {
     favorites: [],
     searchJobs: '',
     sliderValue: '',
-    loggedIn: false
+    loggedIn: false,
+    currentAuthorId: false
   }
 
   componentDidMount() {
@@ -41,8 +42,6 @@ export default class App extends Component {
     })
     .catch(error => console.error(error));
   }
-
-
 
   addFavorite = (id) => {
       if (this.state.favorites.includes(id)) {
@@ -85,23 +84,22 @@ export default class App extends Component {
   login = () => {
     this.setState({ loggedIn: true });
     sessionStorage.setItem('loggedIn', true);
-    // apiClient.get('api/user')
-    // .then(response => {
-    //   console.log(response);
-    // })
+    apiClient.get('api/user').then(response => {
+      this.setState({ currentAuthorId: response.data.id })
+    })
   };
 
   logout = () => {
     apiClient.post('/logout').then(response => {
       if (response.status === 204) {
         this.setState({ loggedIn: false });
+        this.setState({ currentAuthorId: false })
         sessionStorage.setItem('loggedIn', false);
       }
     })
   };
 
   render () {
-
   const authLink = this.state.loggedIn 
     ? <button onClick={this.logout} className="nav-link btn btn-link">Logout</button> 
     : <NavLink to='/login' className="nav-link">Anmelden</NavLink>;
@@ -114,7 +112,6 @@ export default class App extends Component {
        data.company.toLowerCase().includes(this.state.searchJobs.toLowerCase()) ||
        data.role.toLowerCase().includes(this.state.searchJobs.toLowerCase()) );
     })
-
     return (
       <div className="App">
         <Router>
@@ -160,6 +157,7 @@ export default class App extends Component {
                     getValue={this.getValue}
                     // cleanInput={this.cleanInput}
                     toggleChecked={this.toggleChecked}
+                    currentAuthorId={this.state.currentAuthorId}
                      />
                 </Route>
                 <Route exact path="/">

@@ -9,12 +9,14 @@ import {
 
 // COMPONENTS
 import Job from './Job'
+import apiClient from '../Services/api'
 
 export default function List (props) {
     let jobs = props.jobs.map(job => {
         return <Job
                 id={job.id}
                 key={job.id}
+                author_id={job.author_id}
 
                 company={job.company}
                 logo={job.logo || null}
@@ -31,6 +33,7 @@ export default function List (props) {
 
                 favorites={props.favorites}
                 addFavorite={props.addFavorite}
+                currentAuthorId={props.currentAuthorId}
                 />
         })
     return (
