@@ -36,10 +36,10 @@ export default function JobCard(props) {
                             </Button>
                             <FontAwesomeIcon icon={faHeart} color={ props.favorites.includes(props.id) ? 'red': "black" } onClick={() => props.addFavorite(props.id)} className="fa-lg" />
                         </p>
-                        { props.currentAuthorId  ?
+                        { props.currentAuthorId === props.author_id  ?
                         <p className="mt-5 col-3 align-self-end d-flex justify-content-around align-items-center">
-                            <FontAwesomeIcon icon={faTrash} className="fa-lg" />
-                            <FontAwesomeIcon icon={faEdit} className="fa-lg" />
+                            <FontAwesomeIcon icon={faTrash} className="fa-lg" /*onClick={() => props.editJob(props.id)}*/  />
+                            <FontAwesomeIcon icon={faEdit} className="fa-lg" /*onClick={() => props.deleteJob(props.id)}*/ />
                         </p>
                         : null
                         }
