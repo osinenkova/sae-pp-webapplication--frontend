@@ -55,6 +55,19 @@ export default class App extends Component {
         this.setState({ favorites: addedFavorites }, ()=>console.log(this.state.favorites))
       }
   }
+
+  deleteJob = (id) => {
+    console.log(id);
+    apiClient.delete(`/api/job-postings/${id}`)
+    .then(response => {
+      console.log(response);
+      if (response.status === 204) {
+        let array = this.state.jobs.filter(job => job != id);
+        this.setState({ jobs: array }, ()=>console.log(this.state.jobs));
+      }
+    })
+  }
+
   handleSearchFieldChange = (e) => {
     this.setState({ searchJobs: e.target.value }, () => {console.log(this.state.searchJobs)})
   }
@@ -158,6 +171,7 @@ export default class App extends Component {
                     // cleanInput={this.cleanInput}
                     toggleChecked={this.toggleChecked}
                     currentAuthorId={this.state.currentAuthorId}
+                    deleteJob={this.deleteJob}
                      />
                 </Route>
                 <Route exact path="/">
@@ -167,7 +181,11 @@ export default class App extends Component {
                   <Dashboard loggedIn={this.state.loggedIn} />
                   </Route>
                 <Route path="/favorites">
-                  <Favorites favorites={this.state.favorites} jobs={this.state.jobs} addFavorite={this.addFavorite} />
+                  <Favorites
+                    favorites={this.state.favorites}
+                    jobs={this.state.jobs}
+                    addFavorite={this.addFavorite}
+                  />
                 </Route>
                 <Route path="/help">
                   <Help />
