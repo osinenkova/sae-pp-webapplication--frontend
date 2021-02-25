@@ -46,6 +46,7 @@ export default function LatestJobs (props) {
           addFavorite={props.addFavorite}
           currentAuthorId={props.currentAuthorId}
           deleteJob={props.deleteJob}
+          editJob={props.editJob}
             />
       </div>
   )

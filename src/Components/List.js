@@ -35,6 +35,7 @@ export default function List (props) {
                 addFavorite={props.addFavorite}
                 currentAuthorId={props.currentAuthorId}
                 deleteJob={props.deleteJob}
+                editJob={props.editJob}
                 />
         })
     return (

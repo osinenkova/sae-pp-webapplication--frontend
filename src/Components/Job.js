@@ -43,6 +43,7 @@ export default function Job(props) {
 
                                         currentAuthorId={props.currentAuthorId}
                                         deleteJob={props.deleteJob}
+                                        editJob={props.editJob}
                                     />
                                 </div>
                                 }

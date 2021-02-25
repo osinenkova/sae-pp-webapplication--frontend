@@ -2,7 +2,6 @@ import React, { Component } from 'react'
 import ReactDOM from 'react-dom';
 import apiClient from '../../Services/api';
 
-  
 
 class JobPosting extends Component {
 

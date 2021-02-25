@@ -1,6 +1,7 @@
 // LIBRARIES
 import React, { Component } from 'react';
 import { BrowserRouter as Router, Switch, Route, NavLink } from 'react-router-dom';
+import Cookies from 'js-cookie';
 
 // DATA
 import data from './Data/data.json'
@@ -14,10 +15,10 @@ import Login from './Components/Pages/Login'
 import Books from './Components/Pages/Books'
 import JobPosting from './Components/Pages/JobPosting'
 import Dashboard from './Components/Pages/Dashboard'
+import JobUpdate from './Components/Pages/JobUpdate'
 
 // COMPONENTS
-import apiClient from './Services/api'
-
+import apiClient from './Services/api';
 
 export default class App extends Component {
   state = {
@@ -48,7 +49,7 @@ export default class App extends Component {
         // this removes the already added contacts from favorites:
         let array = this.state.favorites.filter(favorite => favorite != id);
         this.setState({ favorites: array }, ()=>console.log(this.state.favorites))
-      } else { 
+      } else {
         // and this adds them to the favoites list:
         let addedFavorites = [...this.state.favorites]
         addedFavorites.push(id);
@@ -57,15 +58,9 @@ export default class App extends Component {
   }
 
   deleteJob = (id) => {
-    console.log(id);
     apiClient.delete(`/api/job-postings/${id}`)
-    .then(response => {
-      console.log(response);
-      if (response.status === 204) {
-        let array = this.state.jobs.filter(job => job != id);
-        this.setState({ jobs: array }, ()=>console.log(this.state.jobs));
-      }
-    })
+    let array = this.state.jobs.filter(job => job != id);
+    this.setState({ jobs: array }, () => { console.log(this.state.jobs) });
   }
 
   handleSearchFieldChange = (e) => {
@@ -75,20 +70,20 @@ export default class App extends Component {
     console.warn(val);
       switch(val) {
         case 0:
-          this.setState({sliderValue: 'Junior'}, () => {console.log(this.state.sliderValue)}) 
+          this.setState({sliderValue: 'Junior'}, () => {console.log(this.state.sliderValue)})
         break;
         case 50:
-          this.setState({sliderValue: 'Midweight'}, () => {console.log(this.state.sliderValue)}) 
+          this.setState({sliderValue: 'Midweight'}, () => {console.log(this.state.sliderValue)})
         break;
         case 100:
-        this.setState({sliderValue: 'Senior'}, () => {console.log(this.state.sliderValue)}) 
+        this.setState({sliderValue: 'Senior'}, () => {console.log(this.state.sliderValue)})
         break;
         default:
         return ''
       }
   }
   cleanInput = () => {
-    this.setState({ 
+    this.setState({
       searchJobs: '',
       sliderValue: ''
       });
@@ -113,8 +108,8 @@ export default class App extends Component {
   };
 
   render () {
-  const authLink = this.state.loggedIn 
-    ? <button onClick={this.logout} className="nav-link btn btn-link">Logout</button> 
+  const authLink = this.state.loggedIn
+    ? <button onClick={this.logout} className="nav-link btn btn-link">Logout</button>
     : <NavLink to='/login' className="nav-link">Anmelden</NavLink>;
     let filteredSearch = this.state.jobs.filter((data) => {
       // TODO: second filter to search in multiple keys
@@ -145,7 +140,7 @@ export default class App extends Component {
                   <li className="nav-item">
                     <NavLink to="/help" className="nav-link"> Help </NavLink>
                   </li>
-                  { this.state.loggedIn ? 
+                  { this.state.loggedIn ?
                   <li className="nav-item">
                   <NavLink to='/post-a-job' className="nav-link">Jobschaltung</NavLink>
                   </li> : null }
@@ -158,7 +153,6 @@ export default class App extends Component {
                 </ul>
               </div>
             </nav>
-            
             <div className="container mt-5 pt-5"></div>
               <Switch>
                 <Route path="/latest-jobs">
@@ -172,6 +166,7 @@ export default class App extends Component {
                     toggleChecked={this.toggleChecked}
                     currentAuthorId={this.state.currentAuthorId}
                     deleteJob={this.deleteJob}
+                    editJob={this.editJob}
                      />
                 </Route>
                 <Route exact path="/">
@@ -199,6 +194,9 @@ export default class App extends Component {
                 <Route path='/login' render={props => (
                   <Login {...props} login={this.login} />
                 )} />
+                <Route exact path="/job-update/:id">
+                  <JobUpdate />
+                </Route>
               </Switch>
           </div>
         </Router>
