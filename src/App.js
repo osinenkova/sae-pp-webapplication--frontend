@@ -12,10 +12,11 @@ import LatestJobs from './Components/Pages/Latest-Jobs'
 import Favorites from './Components/Pages/Favorites'
 import Help from './Components/Pages/Help'
 import Login from './Components/Pages/Login'
-import Books from './Components/Pages/Books'
+import Register from './Components/Pages/Register'
 import JobPosting from './Components/Pages/JobPosting'
 import Dashboard from './Components/Pages/Dashboard'
 import JobUpdate from './Components/Pages/JobUpdate'
+import WelcomeForm from './Components/Pages/WelcomeForm'
 
 // COMPONENTS
 import apiClient from './Services/api';
@@ -42,6 +43,15 @@ export default class App extends Component {
       //console.log(this.state.jobs);
     })
     .catch(error => console.error(error));
+
+    // apiClient.get('api/user')
+    //   .then(response => {
+    //     // this.setState({ loggedIn: true })
+    //     console.log(response);
+    //     this.setState({ loggedIn: true })
+    //   })
+
+
   }
 
   addFavorite = (id) => {
@@ -89,9 +99,13 @@ export default class App extends Component {
       });
   }
 
+  auth = () => {
+    apiClient.get('api/user');
+  }
+
   login = () => {
     this.setState({ loggedIn: true });
-    sessionStorage.setItem('loggedIn', true);
+    // sessionStorage.setItem('loggedIn', true);
     apiClient.get('api/user').then(response => {
       this.setState({ currentAuthorId: response.data.id })
     })
@@ -111,6 +125,9 @@ export default class App extends Component {
   const authLink = this.state.loggedIn
     ? <button onClick={this.logout} className="nav-link btn btn-link">Logout</button>
     : <NavLink to='/login' className="nav-link">Anmelden</NavLink>;
+  const registerLink = this.state.loggedIn
+     ? null
+     : <NavLink to='/register' className="nav-link">Registrieren</NavLink>;
     let filteredSearch = this.state.jobs.filter((data) => {
       // TODO: second filter to search in multiple keys
       // slider results
@@ -145,10 +162,10 @@ export default class App extends Component {
                   <NavLink to='/post-a-job' className="nav-link">Jobschaltung</NavLink>
                   </li> : null }
                   <li className="nav-item">
-                  <NavLink to='/books' className="nav-link">Books</NavLink>
+                    {authLink}
                   </li>
                   <li className="nav-item">
-                    {authLink}
+                    {registerLink}
                   </li>
                 </ul>
               </div>
@@ -173,7 +190,7 @@ export default class App extends Component {
                   <Home />
                 </Route>
                 <Route path='/dashboard'>
-                  <Dashboard loggedIn={this.state.loggedIn} />
+                  <Dashboard loggedIn={this.state.loggedIn} auth={this.auth} />
                   </Route>
                 <Route path="/favorites">
                   <Favorites
@@ -185,15 +202,18 @@ export default class App extends Component {
                 <Route path="/help">
                   <Help />
                 </Route>
-                <Route path='/books' exact render={props => (
-                  <Books {...props} loggedIn={this.state.loggedIn} />
-                )} />
                 <Route path='/post-a-job' exact render={props => (
                   <JobPosting loggedIn={this.state.loggedIn} />
                 )} />
                 <Route path='/login' render={props => (
                   <Login {...props} login={this.login} />
                 )} />
+                <Route path='/register'>
+                  <Register />
+                </Route>
+                <Route exact path="/welcome">
+                  <WelcomeForm />
+                </Route>
                 <Route exact path="/job-update/:id">
                   <JobUpdate />
                 </Route>

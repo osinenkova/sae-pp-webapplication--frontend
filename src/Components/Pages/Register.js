@@ -2,29 +2,42 @@ import React from 'react';
 import apiClient from '../../Services/api'
 import { useHistory } from "react-router-dom";
 
-const Login = (props) => {
+import Errors from '../Errors'
+
+const Register = (props) => {
+    const [name, setName] = React.useState('');
     const [email, setEmail] = React.useState('');
     const [password, setPassword] = React.useState('');
+    const [passwordRepeat, setPasswordRepeat] = React.useState('');
     const history = useHistory();
     const handleSubmit = (e) => {
         e.preventDefault();
         apiClient.get('/sanctum/csrf-cookie')
         .then(response => {
-            return apiClient.post('/login', {
+            apiClient.post('/register', {
+                name: name,
                 email: email,
                 password: password
-            }).then(response => {
-                if (response.status === 204) {
-                    props.login();
-                    history.push("/dashboard");
-                }
             })
+                .then(response => {
+                    if (response.status === 204) {
+                        history.push("/welcome");
+                    }
+                })
         });
     }
     return (
         <div>
-            <h1>Login</h1>
+            <h1>Register</h1>
             <form onSubmit={handleSubmit}>
+                <input
+                     type="name"
+                     name="name"
+                     placeholder="Name"
+                     value={name}
+                     onChange={e => setName(e.target.value)}
+                     required
+                />
                 <input
                     type="email"
                     name="email"
@@ -41,10 +54,18 @@ const Login = (props) => {
                     onChange={e => setPassword(e.target.value)}
                     required
                 />
-                <button type="submit">Login</button>
+                <input
+                    type="password"
+                    name="passwordRepeat"
+                    placeholder="Repeat Password"
+                    value={passwordRepeat}
+                    onChange={e => setPasswordRepeat(e.target.value)}
+                    required
+                />
+                <button type="submit">Register</button>
             </form>
         </div>
     );
 }
 
-export default Login;
+export default Register;

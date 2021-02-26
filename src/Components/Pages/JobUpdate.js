@@ -1,7 +1,5 @@
 import React, { Component } from 'react'
-import { withRouter } from "react-router";
 import apiClient from '../../Services/api';
-
 
 class JobUpdate extends Component {
     constructor(props) {
@@ -23,7 +21,6 @@ class JobUpdate extends Component {
     componentWillMount() {
         this.getJobDetails();
     }
-
         getJobDetails() {
             let url = window.location.pathname;
             let jobId = url.substring(url.lastIndexOf('/') + 1);
@@ -63,6 +60,7 @@ class JobUpdate extends Component {
          })
         .then(response => {
             console.log(response);
+            window.location.href = '/latest-jobs';
         }).catch(err => console.log(err));
     }
 

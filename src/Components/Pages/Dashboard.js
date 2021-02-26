@@ -1,7 +1,11 @@
-import React from 'react';
-import { useHistory } from "react-router-dom";
+import React, { useState, useEffect } from 'react';
 
 function Dashboard(props) {
+
+    // useEffect(() => {
+    //     props.auth()
+    // })
+
     return (
         <div>
             {props.loggedIn ? <p>Dashboard</p> : null }
